@@ -12,23 +12,31 @@ use Illuminate\Support\Facades\Process;
  */
 class TwoFACommand
 {
-	public function addTwoFA($code): bool
+	public static function addTwoFA($code, $name): bool
 	{
 		if(!$code) {
 			return false;
 		}
 
-		return Process::run("2fa add {$code}") -> successful();
+		if(!$name) {
+			return false;
+		}
+
+		return Process::command("2fa add {$code};")
+			-> input($code)
+			-> run()
+			-> successful();
 	}
 
-
-	public function getAllTwoFA()
+	public static function getTwoFA($name)
 	{
-		
-	}
+		if(!$name) {
+			return null;
+		}
 
-	public function getTwoFA($name)
-	{
-			
+		return Process::run("2fa {$name};")
+			-> successful() 
+			? Process::output() 
+			: null;
 	}
 }
