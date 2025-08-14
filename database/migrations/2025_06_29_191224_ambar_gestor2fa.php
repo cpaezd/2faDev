@@ -11,10 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create("roles", function (Blueprint $table) {
-		// 	$table->id();
-
-		// });
 
 		Schema::create("usuarios", function (Blueprint $table) {
 			$table -> id();
@@ -24,8 +20,11 @@ return new class extends Migration
 		});
 
 		Schema::create("tokens", function (Blueprint $table) {
-			$table->id();
+			$table -> string("tokenId") -> primary();
 			$table -> string("nombre");
+			$table -> string("cliente");
+			$table -> string("grupoSoporte");
+			$table -> date("fechaCreacion");
 		});
     }
 

@@ -14,15 +14,7 @@ class TwoFACommand
 {
 	public static function addTwoFA($code, $name): bool
 	{
-		if(!$code) {
-			return false;
-		}
-
-		if(!$name) {
-			return false;
-		}
-
-		return Process::command("2fa add {$code};")
+		return Process::command("2fa add {$name};")
 			-> input($code)
 			-> run()
 			-> successful();
@@ -30,13 +22,14 @@ class TwoFACommand
 
 	public static function getTwoFA($name)
 	{
-		if(!$name) {
-			return null;
-		}
+		$process = Process::run("2fa {$name};");
 
-		return Process::run("2fa {$name};")
-			-> successful() 
-			? Process::output() 
+		return $process -> successful()
+			?  $process -> output()
 			: null;
+	}
+
+	public static function getAllTwoFA() {
+		return Process::run("2fa") -> output();
 	}
 }

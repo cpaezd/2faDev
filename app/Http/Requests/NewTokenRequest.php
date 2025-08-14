@@ -22,7 +22,10 @@ class NewTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+			"nombre" => "string|required",
+            "codigo" => "string|required",
+			"cliente" => "string|required",
+			"grupo" => "string|required"
         ];
     }
 }
