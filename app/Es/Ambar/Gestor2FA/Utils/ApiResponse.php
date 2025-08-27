@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Es\Ambar\Gestor2FA\Utils;
+namespace Es\Ambar\Gestor2FA\Utils;
 
 trait ApiResponse
 {

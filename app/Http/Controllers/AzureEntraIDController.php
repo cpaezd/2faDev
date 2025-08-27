@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AzureUserController extends Controller
+class AzureEntraIDController extends Controller
 {
     //
 }

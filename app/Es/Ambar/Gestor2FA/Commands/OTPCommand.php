@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Process;
  *
  * This class is responsible for handling two-factor authentication commands.
  */
-class TwoFACommand
+class OTPCommand
 {
-	public static function addTwoFA($code, $name): bool
+	public static function newOTP($code, $name): bool
 	{
 		return Process::command("2fa add {$name};")
 			-> input($code)
@@ -20,7 +20,7 @@ class TwoFACommand
 			-> successful();
 	}
 
-	public static function getTwoFA($name)
+	public static function getOTP($name)
 	{
 		$process = Process::run("2fa {$name};");
 
@@ -29,7 +29,7 @@ class TwoFACommand
 			: null;
 	}
 
-	public static function getAllTwoFA() {
+	public static function getAllOTP() {
 		return Process::run("2fa") -> output();
 	}
 }
