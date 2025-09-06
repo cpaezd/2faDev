@@ -26,7 +26,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-			"Es\\Ambar\\Gestor2FA\\": "app/Es/Ambar/Gestor2Fa/"
+			"Es\\Ambar\\Gestor2FA\\": "app/Es/Ambar/Gestor2FA/"
         }
     },
     "autoload-dev": {

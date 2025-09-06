@@ -1,16 +1,16 @@
 <?php
 
-namespace Es\Ambar\Gestor2FA\Utlis;
+namespace Es\Ambar\Gestor2FA\Utils;
 
 class Tokenable
 {
 	public static function outputToToken(string $output)
 	{
-		
+
 	}
 
-	public static function TokenCollection() 
+	public static function TokenCollection()
 	{
-		
+
 	}
 }
