@@ -8,16 +8,13 @@ Route::get("/test", function () {
 	return "OK!";
 });
 
-Route::middleware(AzureTokenMiddleware::class) -> group(function () {
-	Route::get("/opt/all", [OTPController::class, "newOTP"]);
+// Route::middleware(AzureTokenMiddleware::class) -> group(function () {});
 
-	Route::post("/opt/add", [OTPController::class, "getOTPs"]);
+Route::get("/opt/all", [OTPController::class, "getOTPs"]);
+Route::get("/opt/code/{otpId}", [OTPController::class, "getOTPCode"]);
+Route::get("/opt/user/", [OTPController::class, "getOTPsByGroup"]);
 
-	Route::get("/opt/code/{otpId}",[OTPController::class, "getOTPCode"]);
+Route::post("/opt/nuevo", [OTPController::class, "newOTP"]);
 
-	Route::get("/opt/user/", [OTPController::class, "getOTPsByGroup"]);
-
-	Route::patch("/opt/edit/{otpId}", [OTPController::class, "editOTP"]);
-
-	Route::patch("/opt/disable/{otpId}", [OTPController::class, "disableOTP"]);
-});
+Route::patch("/opt/edit/{otpId}", [OTPController::class, "editOTP"]);
+Route::patch("/opt/disable/{otpId}", [OTPController::class, "disableOTP"]);

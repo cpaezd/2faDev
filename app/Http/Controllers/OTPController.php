@@ -6,14 +6,15 @@ use App\Http\Requests\EditOTPRequest;
 use App\Http\Requests\NewOTPRequest;
 use Es\Ambar\Gestor2FA\Services\Contracts\IOTPService;
 use Es\Ambar\Gestor2FA\Services\OTPService;
+use Illuminate\Http\Request;
 
 class OTPController extends Controller
 {
-	private IOTpService $otpService;
+	private IOTPService $otpService;
 
-	public function __construct()
+	public function __construct(IOTPService $otpService)
 	{
-		$this -> otpService = new OTPService();
+		$this -> otpService = $otpService;
 	}
 
 	public function newOTP(NewOTPRequest $newTokenRequest)

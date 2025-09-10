@@ -11,7 +11,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $injections = [
+            \Es\Ambar\Gestor2FA\Services\Contracts\IOTPService::class => \Es\Ambar\Gestor2FA\Services\OTPService::class,
+            \Es\Ambar\Gestor2FA\Repositories\Interfaces\IOTPRepository::class => \Es\Ambar\Gestor2FA\Repositories\OTPRepository::class
+        ];
+
+        foreach($injections as $interface => $implementation) {
+            $this -> app -> bind($interface, $implementation);
+        }
     }
 
     /**

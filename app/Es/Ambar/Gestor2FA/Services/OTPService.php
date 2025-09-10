@@ -9,46 +9,60 @@ use Es\Ambar\Gestor2FA\Commands\OTPCommand;
 use Es\Ambar\Gestor2FA\Services\Contracts\IOTPService;
 use Es\Ambar\Gestor2FA\Repositories\Interfaces\IOTPRepository;
 use Es\Ambar\Gestor2FA\Repositories\OTPRepository;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class OTPService implements IOTPService
 {
 	private IOTPRepository $otpRepository;
 	private OTPCommand $optCommand;
 
-	public function __construct()
+	public function __construct(IOTPRepository $otpRepository, OTPCommand $otpCommand)
 	{
-		$this -> otpRepository = new OTPRepository();
-		$this -> optCommand = new OTPCommand();
+		$this -> otpRepository = $otpRepository;
+		$this -> optCommand = $otpCommand;
 	}
 
-	function newOTP(NewOTPRequest $request): JsonResponse
+	function newOTP(NewOTPRequest $request)
 	{
-		$nuevo = new AmbarOTP($request -> all());
+		// Log::channel("otp") -> info("Empezando...");
 
-		$creadoSVR = $this
-			-> optCommand
-			-> newOTP($nuevo -> codigo, $nuevo -> nombre);
+		// $nuevo = new AmbarOTP([
+		// 	"nombre" => $request -> nombre,
+		// 	"grupoSoporte" => $request -> grupoSoporte,
+		// 	"cliente" => $request -> cliente
+		// ]);
 
-		if(!$creadoSVR) {
-			return response() -> json([
-				"message" => "Fallo al crear el OTP en el servidor"
-			], 500);
-		}
+		$nuevo = new AmbarOTP([$request -> all()]);
 
+		// $creadoSVR = $this
+		// 	-> optCommand
+		// 	-> newOTP($nuevo -> codigo, $nuevo -> nombre);
+
+		// if(!$creadoSVR) {
+		// 	return response() -> json([
+		// 		"message" => "Fallo al crear el OTP en el servidor"
+		// 	], 500);
+		// }
+
+		// Log::channel("otp") -> info("Base de datos...");
 		$creadoBD = $this
 			-> otpRepository
 			-> newOTP($nuevo);
 
 		if(!$creadoBD) {
+			// Log::channel("otp") -> info("Nah...");
 			return response() -> json([
 				"message" => "Fallo al insertar el OTP en la BD"
-			],500);
+			], 500);
 		}
 
-		return response() -> json([
-			"message" => "OTP creado correctamente"
-		]);
+		// Log::channel("otp") -> info("Bien!");
+		return [
+			"message" => "OTP creado correctamente",
+			"data" => $creadoBD
+		];
 	}
 
 	function getOTPCode(string $otpId)

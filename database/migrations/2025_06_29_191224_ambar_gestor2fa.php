@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-		Schema::create("usuarios", function (Blueprint $table) {
-			$table -> id();
-			$table -> string("nombre");
-			$table -> string("email") -> unique();
-			$table -> boolean("activo") -> default(true);
-		});
-
-		Schema::create("tokens", function (Blueprint $table) {
-			$table -> string("tokenId") -> primary();
-			$table -> string("nombre");
+		Schema::create("otp", function (Blueprint $table) {
+			$table -> integer("id") -> primary() -> autoIncrement();
+			// $table -> string("codigo"); // Sería necesario??
+			$table -> string("nombre") -> unique();
 			$table -> string("cliente");
-			$table -> string("grupoSoporte");
+			$table -> string("grupoSoporte"); // TODO: Buscar otra idea para añadir más de un grupo
 			$table -> date("fechaCreacion");
+			$table -> date("fechaModificacion");
+			$table -> text("observaciones") -> nullable();
+			$table -> boolean("activo");
 		});
     }
 
@@ -33,7 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuario');
-		Schema::dropIfExists('tokens');
+		Schema::dropIfExists("otp");
     }
 };
