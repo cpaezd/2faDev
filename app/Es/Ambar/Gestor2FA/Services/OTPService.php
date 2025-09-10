@@ -34,7 +34,12 @@ class OTPService implements IOTPService
 		// 	"cliente" => $request -> cliente
 		// ]);
 
-		$nuevo = new AmbarOTP([$request -> all()]);
+		$nuevo = new AmbarOTP([
+			"nombre" => $request -> nombre,
+			// "codigo" => $request -> codigo,
+			"grupoSoporte" => $request -> grupoSoporte,
+			"cliente" => $request -> cliente
+		]);
 
 		// $creadoSVR = $this
 		// 	-> optCommand
@@ -83,13 +88,41 @@ class OTPService implements IOTPService
 		return $this -> otpRepository -> getOTPsByGroups($user);
 	}
 
-	function editOTP(EditOTPRequest $request)
+	function editOTP(int $id, EditOTPRequest $request)
 	{
-		// TODO: Implement editOTP() method.
+		if(!$id) {
+			return response() -> json([
+				"message" => "No se ha indicado un ID de OTP válido"
+			], 400);
+		}
+
+		$otp = $this -> otpRepository -> getOTP($id);
+
+		if(!$otp) {
+			return response() -> json([
+				"message" => "No se ha encontrado el OTP"
+			], 404);
+		}
+
+		return $this -> otpRepository -> editOTP($otp, $request -> all());
 	}
 
-	function disableOTP(string $otpId)
+	function disableOTP(string $id)
 	{
-		return $this -> otpRepository -> disableOTP($otpId);
+		if(!$id) {
+			return response() -> json([
+				"message" => "No se ha indicado un ID de OTP válido"
+			], 400);
+		}
+
+		$otp = $this -> otpRepository -> getOTP($id);
+
+		if(!$otp) {
+			return response() -> json([
+				"message" => "No se ha encontrado el OTP"
+			], 404);
+		}
+
+		return $this -> otpRepository -> disableOTP($id);
 	}
 }

@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class OTPRepository implements IOTPRepository
 {
-	private OTPCommand $command;
-
-	public function __construct()
-	{
-		$this -> command = new OTPCommand();
-	}
-
 	function newOTP(AmbarOTP $nuevo) : bool
 	{
 		return $nuevo -> save();
@@ -24,6 +17,11 @@ class OTPRepository implements IOTPRepository
 	function getOTPCode(string $otpId)
 	{
 		// TODO: Implement getOTPCode() method.
+	}
+
+	function getOTP($id)
+	{
+		return AmbarOTP::find($id);
 	}
 
 	function getOTPs(): Collection
@@ -36,8 +34,21 @@ class OTPRepository implements IOTPRepository
 		return AmbarOTP::whereIn('groups', $groups) -> get();
 	}
 
-	function disableOTP(string $otpId)
+	function disableOTP(string $id): bool
 	{
-		$otp = AmbarOTP::find($otpId);
+		$otp = AmbarOTP::find($id);
+
+		$otp -> activo = false;
+
+		return $otp -> save();
+	}
+
+	function editOTP($id, $data)
+	{
+		$otp = AmbarOTP::find($id);
+
+		$otp -> fill($data);
+
+		return $otp -> save();
 	}
 }

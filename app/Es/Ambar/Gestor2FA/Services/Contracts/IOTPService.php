@@ -12,6 +12,6 @@ interface IOTPService
 	function getOTPCode(string $otpId);
 	function getOTPs();
 	function getOTPsByGroups($groups);
-	function editOTP(EditOTPRequest $request);
+	function editOTP(int $id, EditOTPRequest $request);
 	function disableOTP(string $otpId);
 }

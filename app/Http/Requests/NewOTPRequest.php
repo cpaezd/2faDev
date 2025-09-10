@@ -25,7 +25,7 @@ class NewOTPRequest extends FormRequest
 			"nombre" => "string|required",
             "codigo" => "string|required",
 			"cliente" => "string|required",
-			"grupo" => "string|required"
+			"grupoSoporte" => "string|required"
         ];
     }
 }
