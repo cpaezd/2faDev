@@ -37,9 +37,9 @@ class OTPController extends Controller
 		return $this -> otpService -> getOTPsByGroups($user);
 	}
 
-	public function editOTP(EditOTPRequest $editOTPRequest)
+	public function editOTP(string $id, EditOTPRequest $editOTPRequest)
 	{
-		return $this -> otpService -> editOTP($editOTPRequest);
+		return $this -> otpService -> editOTP($id, $editOTPRequest);
 	}
 
 	public function disableOTP(string $otpId)

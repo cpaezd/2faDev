@@ -34,9 +34,9 @@ class OTPRepository implements IOTPRepository
 		return AmbarOTP::whereIn('groups', $groups) -> get();
 	}
 
-	function disableOTP(string $id): bool
+	function disableOTP(string $id)
 	{
-		$otp = AmbarOTP::find($id);
+		$otp = AmbarOTP::find($id)[0];
 
 		$otp -> activo = false;
 
@@ -45,7 +45,7 @@ class OTPRepository implements IOTPRepository
 
 	function editOTP($id, $data)
 	{
-		$otp = AmbarOTP::find($id);
+		$otp = AmbarOTP::find($id)[0];
 
 		$otp -> fill($data);
 

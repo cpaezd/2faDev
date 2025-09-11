@@ -22,7 +22,6 @@ class EditOTPRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			"id" => "required|string",
 			"nombre" => "string|sometimes",
 			"cliente" => "string|sometimes",
 			"grupo" => "string|sometimes",

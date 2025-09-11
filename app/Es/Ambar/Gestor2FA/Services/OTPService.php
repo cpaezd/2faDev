@@ -26,44 +26,33 @@ class OTPService implements IOTPService
 
 	function newOTP(NewOTPRequest $request)
 	{
-		// Log::channel("otp") -> info("Empezando...");
-
-		// $nuevo = new AmbarOTP([
-		// 	"nombre" => $request -> nombre,
-		// 	"grupoSoporte" => $request -> grupoSoporte,
-		// 	"cliente" => $request -> cliente
-		// ]);
-
 		$nuevo = new AmbarOTP([
 			"nombre" => $request -> nombre,
-			// "codigo" => $request -> codigo,
 			"grupoSoporte" => $request -> grupoSoporte,
 			"cliente" => $request -> cliente
 		]);
 
-		// $creadoSVR = $this
-		// 	-> optCommand
-		// 	-> newOTP($nuevo -> codigo, $nuevo -> nombre);
+		$creadoSVR = $this
+			-> optCommand
+		 	-> newOTP($request -> codigo, $nuevo -> nombre);
 
-		// if(!$creadoSVR) {
-		// 	return response() -> json([
-		// 		"message" => "Fallo al crear el OTP en el servidor"
-		// 	], 500);
-		// }
-
-		// Log::channel("otp") -> info("Base de datos...");
+		if(!$creadoSVR) {
+			return response() -> json([
+				"message" => "Fallo al crear el OTP en el servidor"
+			], 500);
+		}
+		
 		$creadoBD = $this
 			-> otpRepository
 			-> newOTP($nuevo);
 
 		if(!$creadoBD) {
-			// Log::channel("otp") -> info("Nah...");
+			
 			return response() -> json([
 				"message" => "Fallo al insertar el OTP en la BD"
 			], 500);
 		}
 
-		// Log::channel("otp") -> info("Bien!");
 		return [
 			"message" => "OTP creado correctamente",
 			"data" => $creadoBD
@@ -88,7 +77,7 @@ class OTPService implements IOTPService
 		return $this -> otpRepository -> getOTPsByGroups($user);
 	}
 
-	function editOTP(int $id, EditOTPRequest $request)
+	function editOTP(string $id, EditOTPRequest $request)
 	{
 		if(!$id) {
 			return response() -> json([
@@ -98,13 +87,18 @@ class OTPService implements IOTPService
 
 		$otp = $this -> otpRepository -> getOTP($id);
 
-		if(!$otp) {
+		if(!$otp -> id) {
 			return response() -> json([
 				"message" => "No se ha encontrado el OTP"
 			], 404);
 		}
 
-		return $this -> otpRepository -> editOTP($otp, $request -> all());
+		$res = $this -> otpRepository -> editOTP($otp -> id, $request -> all());
+
+		return response() -> json([
+			"message" => 
+				$res ? "OTP con id $id editado" : "Fallo al editar el otp"
+		], $res ? 200: 500);
 	}
 
 	function disableOTP(string $id)
