@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 interface IOTPService
 {
-	function newOTP(NewOTPRequest $request);
-	function getOTPCode(string $otpId);
+	function newOTP(NewOTPRequest $notpr);
+	function getOTPsCode(array $names);
 	function getOTPs();
 	function getOTPsByGroups($groups);
 	function editOTP(string $id, EditOTPRequest $request);

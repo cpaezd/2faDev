@@ -3,23 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class AmbarOTP extends Model
 {
     protected $table = "otp";
 	public $incrementing = true;
 	
-	protected $fillable = [
+	protected $fillable = 
+	[
 		"nombre",
 		"cliente",
-		"grupoSoporte",
 		"activo",
 	];
 
-	protected $attributes = [
+	protected $attributes = 
+	[
 		"activo" => true,
 	];
 
 	public const CREATED_AT = "fechaCreacion";
 	public const UPDATED_AT = "fechaModificacion";
+
+	public function azureGroups() : BelongsToMany
+	{
+		return $this -> belongsToMany(AzureGroup::class, 'otp_grupo', 'otp', 'grupo');
+	}
 }

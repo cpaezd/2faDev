@@ -11,16 +11,38 @@ return new class extends Migration
      */
     public function up(): void
     {
+		Schema::createDatabase(env("DB_DATABASE"));
+
 		Schema::create("otp", function (Blueprint $table) {
 			$table -> integer("id") -> primary() -> autoIncrement();
 			// $table -> string("codigo"); // Sería necesario??
 			$table -> string("nombre") -> unique();
-			$table -> string("cliente");
-			$table -> string("grupoSoporte"); // TODO: Buscar otra idea para añadir más de un grupo
+			$table -> string("cliente"); // TODO: Buscar otra idea para añadir más de un grupo
 			$table -> date("fechaCreacion");
 			$table -> date("fechaModificacion");
 			$table -> text("observaciones") -> nullable();
 			$table -> boolean("activo");
+		});
+
+		Schema::create("grupos", function (Blueprint $table) {
+			$table -> uuid("id") -> primary();
+			$table -> string("nombre");
+		});
+
+		Schema::create("otp_grupos", function (Blueprint $table) {
+			$table -> integer("otp");
+			$table -> uuid("grupo");
+
+			$table -> primary(["otp", "grupo"]);
+
+			$table 
+				-> foreign("otp") 
+				-> references("id") 
+				-> on("otp");
+			$table 
+				-> foreign("grupo") 
+				-> references("id") 
+				-> on("grupos");
 		});
     }
 
@@ -29,6 +51,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-		Schema::dropIfExists("otp");
+		
+		Schema::dropDatabaseIfExists(env("DB_DATABASE"));
     }
 };

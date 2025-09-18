@@ -18,7 +18,7 @@ class AzureGraphService
 		$this -> clientSecret = env('AZURE_CLIENT_SECRET');
 	}
 
-	public function getAccessToken(): string | null
+	private function getAccessToken(): string | null
 	{
 		return Cache::remember('azure_access_token', now() -> addMinutes(55), function () {
 			$response = Http::asForm()
@@ -41,10 +41,9 @@ class AzureGraphService
 	}
 
 	public function checkUser(string $accessToken): bool {
-		$request = Http::withToken($accessToken)
-			-> get("https://graph.microsoft.com/v1.0/me");
-
-		return $request -> successful();
+		return Http::withToken($accessToken)
+			-> get("https://graph.microsoft.com/v1.0/me")
+			-> successful();
 	}
 
 	public function getGroups(string $userId): array | null

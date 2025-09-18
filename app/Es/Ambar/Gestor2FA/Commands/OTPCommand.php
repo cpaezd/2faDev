@@ -8,13 +8,13 @@ class OTPCommand
 {
 	public function newOTP($code, $name): bool
 	{
-		return Process::run("2fa add {$name};", function($proc) {
+		return Process::run("2fa add {$name};", function($proc) use ($code) {
 			$proc -> input("$code\n");
 		})
 			-> successful();
 	}
 
-	public static function getOTP($name): string
+	public static function getOTPCode($name): string
 	{
 		$process = Process::run("2fa {$name};");
 

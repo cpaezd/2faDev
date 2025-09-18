@@ -11,6 +11,6 @@ interface IOTPRepository
 	function getOTP($id);
 	function getOTPs();
 	function getOTPsByGroups($groups);
-	function editOTP($id, $data);
-	function disableOTP(string $otpId);
+	function editOTP(AmbarOTP $otp, $data);
+	function disableOTP(AmbarOTP $otp);
 }

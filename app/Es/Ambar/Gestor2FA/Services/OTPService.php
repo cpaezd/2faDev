@@ -8,9 +8,6 @@ use App\Models\AmbarOTP;
 use Es\Ambar\Gestor2FA\Commands\OTPCommand;
 use Es\Ambar\Gestor2FA\Services\Contracts\IOTPService;
 use Es\Ambar\Gestor2FA\Repositories\Interfaces\IOTPRepository;
-use Es\Ambar\Gestor2FA\Repositories\OTPRepository;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class OTPService implements IOTPService
@@ -24,30 +21,30 @@ class OTPService implements IOTPService
 		$this -> optCommand = $otpCommand;
 	}
 
-	function newOTP(NewOTPRequest $request)
+	function newOTP(NewOTPRequest $notpr)
 	{
 		$nuevo = new AmbarOTP([
-			"nombre" => $request -> nombre,
-			"grupoSoporte" => $request -> grupoSoporte,
-			"cliente" => $request -> cliente
+			"nombre" => $notpr -> nombre,
+			"grupoSoporte" => $notpr -> grupoSoporte,
+			"cliente" => $notpr -> cliente
 		]);
 
 		$creadoSVR = $this
 			-> optCommand
-		 	-> newOTP($request -> codigo, $nuevo -> nombre);
+		 	-> newOTP($notpr -> codigo, $nuevo -> nombre);
 
 		if(!$creadoSVR) {
 			return response() -> json([
 				"message" => "Fallo al crear el OTP en el servidor"
 			], 500);
 		}
-		
+
 		$creadoBD = $this
 			-> otpRepository
 			-> newOTP($nuevo);
 
 		if(!$creadoBD) {
-			
+
 			return response() -> json([
 				"message" => "Fallo al insertar el OTP en la BD"
 			], 500);
@@ -59,9 +56,21 @@ class OTPService implements IOTPService
 		];
 	}
 
-	function getOTPCode(string $otpId)
+	function getOTPsCode(array $names)
 	{
-		// TODO: Implement getOTPCode() method.
+		$codes = [];
+
+		foreach($names as $name) {
+			$code = $this -> optCommand -> getOTPCode($name);
+
+			if(!$code) {
+				continue;
+			}
+
+			$codes[$name] = trim($code);
+		}
+
+		return $codes;
 	}
 
 	function getOTPs()
@@ -74,7 +83,7 @@ class OTPService implements IOTPService
 		$entraID = new AzureGraphService();
 		$groups = $entraID -> getGroups($user);
 
-		return $this -> otpRepository -> getOTPsByGroups($user);
+		return $this -> otpRepository -> getOTPsByGroups($groups);
 	}
 
 	function editOTP(string $id, EditOTPRequest $request)
@@ -87,7 +96,7 @@ class OTPService implements IOTPService
 
 		$otp = $this -> otpRepository -> getOTP($id);
 
-		if(!$otp -> id) {
+		if(!$otp) {
 			return response() -> json([
 				"message" => "No se ha encontrado el OTP"
 			], 404);
@@ -96,7 +105,7 @@ class OTPService implements IOTPService
 		$res = $this -> otpRepository -> editOTP($otp -> id, $request -> all());
 
 		return response() -> json([
-			"message" => 
+			"message" =>
 				$res ? "OTP con id $id editado" : "Fallo al editar el otp"
 		], $res ? 200: 500);
 	}

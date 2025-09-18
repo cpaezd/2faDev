@@ -3,7 +3,7 @@
 namespace Es\Ambar\Gestor2FA\Repositories;
 
 use App\Models\AmbarOTP;
-use Es\Ambar\Gestor2FA\Commands\OTPCommand;
+use App\Models\AzureGroup;
 use Es\Ambar\Gestor2FA\Repositories\Interfaces\IOTPRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -31,22 +31,22 @@ class OTPRepository implements IOTPRepository
 
 	function getOTPsByGroups($groups)
 	{
-		return AmbarOTP::whereIn('groups', $groups) -> get();
+		return AmbarOTP::with("azureGroups")
+			-> whereIn("id", $groups)
+			-> where("activo", true)
+			-> flatten()
+			-> get();
 	}
 
-	function disableOTP(string $id)
+	function disableOTP(AmbarOTP $otp)
 	{
-		$otp = AmbarOTP::find($id)[0];
-
 		$otp -> activo = false;
 
 		return $otp -> save();
 	}
 
-	function editOTP($id, $data)
+	function editOTP(AmbarOTP $otp, $data)
 	{
-		$otp = AmbarOTP::find($id)[0];
-
 		$otp -> fill($data);
 
 		return $otp -> save();
