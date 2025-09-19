@@ -44,7 +44,6 @@ class OTPService implements IOTPService
 			-> newOTP($nuevo);
 
 		if(!$creadoBD) {
-
 			return response() -> json([
 				"message" => "Fallo al insertar el OTP en la BD"
 			], 500);
