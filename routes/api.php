@@ -15,6 +15,7 @@ Route::get("/opt/code/{otpId}", [OTPController::class, "getOTPCode"]);
 Route::get("/opt/user/", [OTPController::class, "getOTPsByGroup"]);
 
 Route::post("/opt/nuevo", [OTPController::class, "newOTP"]);
+Route::post("/opt/codes", [OTPController::class, "getOTPsCode"]);
 
 Route::patch("/opt/edit/{otpId}", [OTPController::class, "editOTP"]);
 Route::patch("/opt/disable/{otpId}", [OTPController::class, "disableOTP"]);

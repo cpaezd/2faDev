@@ -17,13 +17,6 @@ class OTPController extends Controller
 		$this -> otpService = $otpService;
 	}
 
-	/** 
-	 * Crea un nuevo OTP tanto en el servidor como en la base de datos.
-	 * Devuelve 200 si se ha creado correctamente, 500 si ha habido un error.
-	 * 
-	 * @param NewOTPRequest $newTokenRequest
-	 * @return \Illuminate\Http\JsonResponse|
-	*/
 	public function newOTP(NewOTPRequest $newTokenRequest)
 	{
 		return $this -> otpService -> newOTP($newTokenRequest);
@@ -34,9 +27,9 @@ class OTPController extends Controller
 		return $this -> otpService -> getOTPs();
 	}
 
-	public function getOTPCode(array $names)
+	public function getOTPsCode(Request	$request)
 	{
-		return $this -> otpService -> getOTPsCode($names);
+		return $this -> otpService -> getOTPsCode($request -> names);
 	}
 
 	public function getOTPsByGroup(string $user)
