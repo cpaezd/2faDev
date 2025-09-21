@@ -62,10 +62,6 @@ class OTPService implements IOTPService
 		foreach($names as $name) {
 			$code = $this -> optCommand -> getOTPCode($name);
 
-			if(!$code) {
-				continue;
-			}
-
 			$codes[$name] = trim($code);
 		}
 

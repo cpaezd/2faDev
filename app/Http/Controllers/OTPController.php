@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditOTPRequest;
+use App\Http\Requests\GetOTPsCodesRequest;
 use App\Http\Requests\NewOTPRequest;
 use Es\Ambar\Gestor2FA\Services\Contracts\IOTPService;
 use Es\Ambar\Gestor2FA\Services\OTPService;
@@ -27,7 +28,7 @@ class OTPController extends Controller
 		return $this -> otpService -> getOTPs();
 	}
 
-	public function getOTPsCode(Request	$request)
+	public function getOTPsCode(GetOTPsCodesRequest $request)
 	{
 		return $this -> otpService -> getOTPsCode($request -> names);
 	}
