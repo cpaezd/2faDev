@@ -15,6 +15,6 @@ class AzureGroup extends Model
 
 	public function otps() : BelongsToMany
 	{
-		return $this -> belongsToMany(AmbarOTP::class, 'grupoSoporte', 'id');
+		return $this -> belongsToMany(AmbarOTP::class, 'otp_grupos', "grupo", "otp");
 	}
 }

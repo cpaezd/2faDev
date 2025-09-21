@@ -24,9 +24,4 @@ class AmbarOTP extends Model
 
 	public const CREATED_AT = "fechaCreacion";
 	public const UPDATED_AT = "fechaModificacion";
-
-	public function azureGroups() : BelongsToMany
-	{
-		return $this -> belongsToMany(AzureGroup::class, 'otp_grupo', 'otp', 'grupo');
-	}
 }

@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-		Schema::createDatabase(env("DB_DATABASE"));
 
 		Schema::create("otp", function (Blueprint $table) {
 			$table -> integer("id") -> primary() -> autoIncrement();
@@ -51,7 +50,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-		
 		Schema::dropDatabaseIfExists(env("DB_DATABASE"));
     }
 };
