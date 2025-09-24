@@ -14,7 +14,7 @@ class OTPCommand
 			-> successful();
 	}
 
-	public static function getOTPCode($name): string
+	public static function getOTPCode(string $name): string
 	{
 		$process = Process::run("2fa {$name};");
 
