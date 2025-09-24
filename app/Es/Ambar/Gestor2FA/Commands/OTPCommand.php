@@ -16,7 +16,8 @@ class OTPCommand
 
 	public static function getOTPCode(string $name): string
 	{
-		$process = Process::run("2fa {$name};");
+		$process = Process::env(["PATH" => "/span/bin/2fa"])
+		-> run("2fa $name;");
 
 		return $process -> successful()
 			?  $process -> output()
