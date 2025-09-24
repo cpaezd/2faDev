@@ -20,7 +20,7 @@ class OTPCommand
 
 		return $process -> successful()
 			?  $process -> output()
-			: $process -> errorOutput();
+			: "XXXXXX";
 	}
 
 	public function getAllOTP() {
