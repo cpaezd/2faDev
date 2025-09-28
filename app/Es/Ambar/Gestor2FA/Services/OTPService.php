@@ -126,7 +126,7 @@ class OTPService implements IOTPService
 
 	function getOTPCode(string $name)
 	{
-		return resposnse() -> json([
+		return response() -> json([
 			"code" => $this -> optCommand -> getOTPCode($name)
 		], 200); 
 		
