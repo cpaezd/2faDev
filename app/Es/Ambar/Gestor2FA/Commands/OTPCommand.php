@@ -8,7 +8,7 @@ class OTPCommand
 {
 	public function newOTP($code, $name): bool
 	{
-		return Process::env(["PATH" => "/span/bin/2fa"])
+		return Process::env(["PATH" => "/snap/bin/2fa"])
 			-> input("$code\n")
 			-> run("2fa add {$name};")
 			-> successful();
@@ -16,7 +16,7 @@ class OTPCommand
 
 	public static function getOTPCode(string $name): string
 	{
-		$process = Process::env(["PATH" => "/span/bin/2fa"])
+		$process = Process::env(["PATH" => "/snap/bin/2fa"])
 			-> run("2fa $name;");
 
 		return $process -> successful()
@@ -25,7 +25,7 @@ class OTPCommand
 	}
 
 	public function getAllOTP() {
-		return Process::env(["PATH" => "/span/bin/2fa"])
+		return Process::env(["PATH" => "/snap/bin/2fa"])
 			-> run("2fa")
 			-> output();
 	}
