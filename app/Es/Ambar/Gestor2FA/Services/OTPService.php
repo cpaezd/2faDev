@@ -65,7 +65,7 @@ class OTPService implements IOTPService
 			$codes[$name] = trim($code);
 		}
 
-		return [...$codes, ...$names];
+		return $codes;
 	}
 
 	function getOTPs()
