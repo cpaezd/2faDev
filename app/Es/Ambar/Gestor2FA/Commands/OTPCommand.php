@@ -10,14 +10,14 @@ class OTPCommand
 	{
 		return Process::env(["PATH" => "/snap/bin/2fa"])
 			-> input("$code\n")
-			-> run("2fa add {$name};")
+			-> run("2fa -add {$name};")
 			-> successful();
 	}
 
 	public static function getOTPCode(string $name): string
 	{
 		$process = Process::env(["PATH" => "/snap/bin/2fa"])
-			-> run("2fa $name;");
+			-> run("2fa {$name}");
 
 		return $process -> successful()
 			?  $process -> output()
