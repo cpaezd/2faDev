@@ -11,7 +11,7 @@ Route::get("/test", function () {
 // Route::middleware(AzureTokenMiddleware::class) -> group(function () {});
 
 Route::get("/opt/all", [OTPController::class, "getOTPs"]);
-Route::get("/opt/code/{otpId}", [OTPController::class, "getOTPCode"]);
+Route::get("/opt/code/{name}", [OTPController::class, "getOTPCode"]);
 Route::get("/opt/user/", [OTPController::class, "getOTPsByGroup"]);
 
 Route::post("/opt/nuevo", [OTPController::class, "newOTP"]);

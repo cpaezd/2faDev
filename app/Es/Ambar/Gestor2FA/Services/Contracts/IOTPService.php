@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 interface IOTPService
 {
 	function newOTP(NewOTPRequest $notpr);
+	function getOTPCode(string $name);
 	function getOTPsCode(array $names);
 	function getOTPs();
 	function getOTPsByGroups($user);

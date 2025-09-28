@@ -28,6 +28,11 @@ class OTPController extends Controller
 		return $this -> otpService -> getOTPs();
 	}
 
+	public function getOTPCode(string $name)
+	{
+		return $this -> otpService -> getOTPCode($name);
+	}
+
 	public function getOTPsCode(GetOTPsCodesRequest $request)
 	{
 		return $this -> otpService -> getOTPsCode($request -> names);

@@ -123,4 +123,9 @@ class OTPService implements IOTPService
 
 		return $this -> otpRepository -> disableOTP($id);
 	}
+
+	function getOTPCode(string $name)
+	{
+		return $this -> optCommand -> getOTPCode($name);
+	}
 }
