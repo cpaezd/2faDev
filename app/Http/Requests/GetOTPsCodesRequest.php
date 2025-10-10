@@ -22,7 +22,7 @@ class GetOTPsCodesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "names" => ["required", "array"],
+            "groups" => ["required", "array"],
         ];
     }
 }

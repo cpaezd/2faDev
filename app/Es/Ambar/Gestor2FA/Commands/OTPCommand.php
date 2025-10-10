@@ -23,7 +23,6 @@ class OTPCommand
 	}
 
 	public function getAllOTP() {
-		return Process::run("2fa")
-			-> output();
+		return Process::run("2fa") -> output();
 	}
 }

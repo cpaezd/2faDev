@@ -6,8 +6,6 @@ use App\Http\Requests\EditOTPRequest;
 use App\Http\Requests\GetOTPsCodesRequest;
 use App\Http\Requests\NewOTPRequest;
 use Es\Ambar\Gestor2FA\Services\Contracts\IOTPService;
-use Es\Ambar\Gestor2FA\Services\OTPService;
-use Illuminate\Http\Request;
 
 class OTPController extends Controller
 {
@@ -35,7 +33,7 @@ class OTPController extends Controller
 
 	public function getOTPsCode(GetOTPsCodesRequest $request)
 	{
-		return $this -> otpService -> getOTPsCode($request -> names);
+		return $this -> otpService -> getOTPsCode($request -> groups);
 	}
 
 	public function getOTPsByGroup(string $user)
