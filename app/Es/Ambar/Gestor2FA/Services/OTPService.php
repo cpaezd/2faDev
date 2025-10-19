@@ -67,10 +67,7 @@ class OTPService implements IOTPService
 			return ["nombre" => $nombre,"codigo" => $codigo	];
 		});
 
-		return $codes
-			-> filter(function ($i) use ($nombres) {
-				return collect($nombres) -> has($i["nombre"]);
-			});
+		return $codes -> whereIn("nombre", $nombres);
 	}
 
 	function getOTPs()
