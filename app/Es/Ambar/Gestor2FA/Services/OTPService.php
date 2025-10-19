@@ -57,21 +57,9 @@ class OTPService implements IOTPService
 
 	function getOTPsCode(array $names)
 	{
-		$codes = [];
-
-		foreach($names as $name) {
-			$code = $this -> optCommand -> getOTPCode($name);
-
-			$codes[$name] = trim($code);
-		}
-
-		return $codes;
-	}
-
-	function getOTPsCode2(array $names)
-	{
 		$allCodes = $this -> optCommand -> getAllOTP();
 		$lines = explode("\n", $allCodes);
+		$nombres = collect($names);
 
 		$codes = collect($lines) -> map(function($line) {
 			[$codigo, $nombre] = explode("\t", $line);
@@ -83,9 +71,8 @@ class OTPService implements IOTPService
 		});
 
 		return $codes
-			-> filter()
-			-> filter(function ($i) use ($names) {
-				return collect($names) -> has($i["nombre"]);
+			-> filter(function ($i) use ($nombres) {
+				return collect($nombres) -> has($i["nombre"]);
 			});
 	}
 

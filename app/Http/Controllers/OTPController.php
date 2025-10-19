@@ -33,7 +33,7 @@ class OTPController extends Controller
 
 	public function getOTPsCode(GetOTPsCodesRequest $request)
 	{
-		return $this -> otpService -> getOTPsCode($request -> groups);
+		return $this -> otpService -> getOTPsCode($request -> names);
 	}
 
 	public function getOTPsByGroup(string $user)
